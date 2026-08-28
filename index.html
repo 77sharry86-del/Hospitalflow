@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HospitalFlow</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+header{
+  background:#fff;
+  padding:18px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #e5e9f0;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+.logo{
+  font-size:22px;
+  font-weight:800;
+  color:#1677ff;
+}
+.logo span{color:#172033}
+.profile{
+  background:#eef5ff;
+  padding:9px 13px;
+  border-radius:20px;
+  font-size:13px;
+}
+.container{padding:22px;max-width:1200px;margin:auto}
+.welcome{
+  margin-bottom:22px;
+}
+.welcome h1{font-size:27px;margin-bottom:6px}
+.welcome p{color:#6d7788}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 5px 20px rgba(30,50,80,.06);
+}
+.stat-title{font-size:13px;color:#727c8d;margin-bottom:10px}
+.stat-number{font-size:28px;font-weight:800}
+.blue{color:#1677ff}
+.green{color:#13a66b}
+.orange{color:#ed8b19}
+.red{color:#e34d59}
+
+.section{
+  margin-top:25px;
+}
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:13px;
+}
+.section-head h2{font-size:19px}
+.btn{
+  border:0;
+  background:#1677ff;
+  color:white;
+  padding:11px 16px;
+  border-radius:10px;
+  font-weight:700;
+  cursor:pointer;
+}
+.btn:hover{opacity:.9}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+}
+.action{
+  background:#fff;
+  padding:20px;
+  border-radius:15px;
+  cursor:pointer;
+  border:1px solid #edf0f5;
+  transition:.2s;
+}
+.action:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,0,0,.07);
+}
+.icon{font-size:25px;margin-bottom:10px}
+.action h3{font-size:15px;margin-bottom:5px}
+.action p{font-size:12px;color:#788293}
+
+.table-card{
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 5px 20px rgba(30,50,80,.05);
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:15px;
+  text-align:left;
+  border-bottom:1px solid #edf0f4;
+  font-size:14px;
+}
+th{color:#727c8d;font-size:12px}
+.status{
+  padding:6px 9px;
+  border-radius:15px;
+  font-size:11px;
+  background:#e9f8f1;
+  color:#159563;
+}
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:20;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:450px;
+  border-radius:18px;
+  padding:23px;
+}
+.modal-box h2{margin-bottom:18px}
+input,select{
+  width:100%;
+  padding:12px;
+  margin:7px 0 12px;
+  border:1px solid #dce2ea;
+  border-radius:9px;
+  font-size:14px;
+}
+.close{
+  float:right;
+  cursor:pointer;
+  font-size:22px;
+}
+@media(max-width:800px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .actions{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:500px){
+  .container{padding:15px}
+  .stats{gap:10px}
+  .card{padding:15px}
+  .stat-number{font-size:23px}
+  table{font-size:12px}
+  th,td{padding:11px 8px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Hospital<span>Flow</span></div>
+  <div class="profile">👨‍⚕️ Admin</div>
+</header>
+
+<main class="container">
+
+<div class="welcome">
+  <h1>Good Morning 👋</h1>
+  <p>Here's what's happening in your clinic today.</p>
+</div>
+
+<div class="stats">
+  <div class="card">
+    <div class="stat-title">Today's Patients</div>
+    <div class="stat-number blue" id="patients">24</div>
+  </div>
+
+  <div class="card">
+    <div class="stat-title">Appointments</div>
+    <div class="stat-number green">12</div>
+  </div>
+
+  <div class="card">
+    <div class="stat-title">Pending Bills</div>
+    <div class="stat-number orange">₹8,450</div>
+  </div>
+
+  <div class="card">
+    <div class="stat-title">Available Beds</div>
+    <div class="stat-number red">7</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <h2>Quick Actions</h2>
+  </div>
+
+  <div class="actions">
+
+    <div class="action" onclick="openModal()">
+      <div class="icon">👤</div>
+      <h3>Add Patient</h3>
+      <p>Register a new patient</p>
+    </div>
+
+    <div class="action" onclick="alert('Appointment module coming next!')">
+      <div class="icon">📅</div>
+      <h3>Appointment</h3>
+      <p>Schedule an appointment</p>
+    </div>
+
+    <div class="action" onclick="alert('Prescription module coming next!')">
+      <div class="icon">💊</div>
+      <h3>Prescription</h3>
+      <p>Create prescription</p>
+    </div>
+
+    <div class="action" onclick="alert('Billing module coming next!')">
+      <div class="icon">🧾</div>
+      <h3>Create Bill</h3>
+      <p>Generate patient bill</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <h2>Recent Patients</h2>
+    <button class="btn" onclick="openModal()">+ Add Patient</button>
+  </div>
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Age</th>
+          <th>Doctor</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody id="patientTable">
+        <tr>
+          <td>Rahul Sharma</td>
+          <td>34</td>
+          <td>Dr. Mehta</td>
+          <td><span class="status">Completed</span></td>
+        </tr>
+
+        <tr>
+          <td>Priya Singh</td>
+          <td>28</td>
+          <td>Dr. Verma</td>
+          <td><span class="status">Waiting</span></td>
+        </tr>
+
+        <tr>
+          <td>Amit Kumar</td>
+          <td>45</td>
+          <td>Dr. Mehta</td>
+          <td><span class="status">Completed</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <span class="close" onclick="closeModal()">×</span>
+    <h2>Add New Patient</h2>
+
+    <input id="name" placeholder="Patient Name">
+    <input id="age" type="number" placeholder="Age">
+
+    <select id="doctor">
+      <option>Dr. Mehta</option>
+      <option>Dr. Verma</option>
+      <option>Dr. Sharma</option>
+    </select>
+
+    <button class="btn" style="width:100%" onclick="addPatient()">
+      Save Patient
+    </button>
+  </div>
+</div>
+
+<script>
+function openModal(){
+  document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+function addPatient(){
+
+  let name=document.getElementById("name").value;
+  let age=document.getElementById("age").value;
+  let doctor=document.getElementById("doctor").value;
+
+  if(!name || !age){
+    alert("Please enter patient name and age.");
+    return;
+  }
+
+  let table=document.getElementById("patientTable");
+
+  let row=table.insertRow(0);
+
+  row.innerHTML=`
+    <td>${name}</td>
+    <td>${age}</td>
+    <td>${doctor}</td>
+    <td><span class="status">Waiting</span></td>
+  `;
+
+  let count=document.getElementById("patients");
+  count.innerText=parseInt(count.innerText)+1;
+
+  document.getElementById("name").value="";
+  document.getElementById("age").value="";
+
+  closeModal();
+
+  alert("Patient added successfully!");
+}
+</script>
+
+</body>
+</html>
